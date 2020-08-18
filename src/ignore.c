@@ -9,7 +9,7 @@
 #include "ignore.h"
 #include "log.h"
 #include "options.h"
-#include "scandir.h"
+#include "../rust/src/c_headers/scandir_.h"
 #include "util.h"
 
 #ifdef _WIN32

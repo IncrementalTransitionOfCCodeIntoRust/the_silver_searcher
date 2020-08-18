@@ -1,6 +1,6 @@
 #include "search.h"
 #include "print.h"
-#include "scandir.h"
+#include "../rust/src/c_headers/scandir_.h"
 
 size_t alpha_skip_lookup[256];
 size_t *find_skip_lookup;
