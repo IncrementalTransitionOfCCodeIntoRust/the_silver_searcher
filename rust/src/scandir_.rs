@@ -9,38 +9,36 @@ pub unsafe extern "C" fn ag_scandir(
     dirname: *const cty::c_char,
     namelist: *mut *mut *mut dirent,
     f: filter_fp,
-    baton: *mut libc::c_void) -> cty::c_int
+    baton: *mut cty::c_void) -> cty::c_int
 {
     let dirp = opendir(dirname);
-    if dirp.is_null() {
+    if dirp.is_null() || mem::size_of::<*mut dirent>() == 0 {
         closedir(dirp);
         return -1
     }
 
-    if mem::size_of::<*const dirent>() == 0 {
-        closedir(dirp);
-        return -1
-    }
+    let mut names: Vec<*mut dirent> = Vec::new();
+    main_loop: loop {
+        let entry = readdir(dirp);
+        if entry.is_null() {
+            mem::forget(entry);
+            break;
+        }
 
-    let mut names = Vec::new();
-    loop {
-        let mut entry = readdir(dirp);
-        if entry.is_null() { break; }
-
-        // TODO - check this one out, couple with this function's argument, get it to work ...
+        // TODO - couple with ag_scandir function's argument
         if filename_filter(dirname, entry, baton) == 0 {
-            continue;
+            continue main_loop;
         }
 
         names.push(entry);
     }
 
-    closedir(dirp);
+    if !dirp.is_null() {
+        closedir(dirp);
+    }
     names.shrink_to_fit();
-    assert!(names.len() == names.capacity());
-    let names_len = names.len() as cty::c_int;
-    //*namelist = names.into_raw_parts().0;
-    *namelist = names.as_mut_ptr();
+    assert_eq!(names.len(), names.capacity());
+    *namelist = names.into_raw_parts().0;
 
-    return names_len;
+    return names.len() as cty::c_int;
 }

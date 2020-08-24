@@ -34,3 +34,11 @@ tests/*.err
 tests/big/*.err
 tests/big/big_file.txt
 the_silver_searcher.spec
+
+*.cflags
+*.config
+*.creator
+*.cxxflags
+*.files
+*.includes
+*.user
