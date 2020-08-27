@@ -1,4 +1,5 @@
 extern crate bindgen;
+// extern crate cc;
 
 use std::env;
 
@@ -31,4 +32,10 @@ fn main() {
     bindings
         .write_to_file("src/bindings.rs")
         .expect("Couldn't write bindings!");
+
+    // println!("cargo:rerun-if-changed=src/hello.c");
+    // // Use the `cc` crate to build a C file and statically link it.
+    // cc::Build::new()
+    //     .file("../src/ignore.c")
+    //     .compile("ignore")
 }

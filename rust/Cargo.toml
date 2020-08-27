@@ -14,6 +14,7 @@ libc = "0.2.74"
 
 [build-dependencies]
 bindgen = "0.54.1"
+cc = "1.0.59"
 
 [lib]
 name = "rust_internals"

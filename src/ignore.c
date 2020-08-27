@@ -206,7 +206,7 @@ static int ackmate_dir_match(const char *dir_name) {
 }
 
 /* This is the hottest code in Ag. 10-15% of all execution time is spent here */
-static int path_ignore_search(const ignores *ig, const char *path, const char *filename) {
+int path_ignore_search(const ignores *ig, const char *path, const char *filename) {
     char *temp;
     int temp_start_pos;
     size_t i;
