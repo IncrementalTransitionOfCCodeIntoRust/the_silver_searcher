@@ -18,7 +18,7 @@ pub unsafe extern "C" fn ag_scandir(
     }
 
     let mut names: Vec<*mut dirent> = Vec::new();
-    main_loop: loop {
+    loop {
         let entry = readdir(dirp);
         if entry.is_null() {
             mem::forget(entry);
@@ -27,7 +27,7 @@ pub unsafe extern "C" fn ag_scandir(
 
         // TODO - couple with ag_scandir function's argument
         if filename_filter(dirname, entry, baton) == 0 {
-            continue main_loop;
+            continue;
         }
 
         names.push(entry);
@@ -36,9 +36,11 @@ pub unsafe extern "C" fn ag_scandir(
     if !dirp.is_null() {
         closedir(dirp);
     }
+
+    let result = names.len() as cty::c_int;
     names.shrink_to_fit();
     assert_eq!(names.len(), names.capacity());
     *namelist = names.into_raw_parts().0;
 
-    return names.len() as cty::c_int;
+    return result
 }
