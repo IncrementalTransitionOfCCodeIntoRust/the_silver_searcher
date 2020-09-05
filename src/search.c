@@ -573,6 +573,15 @@ void search_dir(ignores *ig, const char *base_path, const char *path, const int 
     scandir_baton.path_start = path_start;
 
     results = ag_scandir(path, &dir_list, &filename_filter, &scandir_baton);
+
+    // printf("results: %d\n", results);
+    // int u;
+
+    // for (u = 0; u < results; u++) {
+    //     printf("d_type: %u\n", dir_list[u]->d_type);
+    // }
+    //return;
+
     if (results == 0) {
         log_debug("No results found in directory %s", path);
         goto search_dir_cleanup;
@@ -681,7 +690,7 @@ void search_dir(ignores *ig, const char *base_path, const char *path, const int 
         }
 
     cleanup:
-        free(dir);
+        //free(dir);
         dir = NULL;
         if (queue_item == NULL) {
             free(dir_full_path);
