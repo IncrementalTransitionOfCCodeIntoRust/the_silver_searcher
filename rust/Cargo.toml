@@ -11,6 +11,7 @@ cty = "0.2.1"
 nix = "0.18.0"
 rs-libc = "0.2.1"
 libc = "0.2.74"
+walkdir = "2.3.1"
 
 [build-dependencies]
 bindgen = "0.54.1"
